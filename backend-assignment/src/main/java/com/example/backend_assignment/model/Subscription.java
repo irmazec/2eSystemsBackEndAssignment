@@ -22,6 +22,5 @@ public class Subscription {
 
 	public void setIcaoCode(String icaoCode) {
 		this.icaoCode = icaoCode;
-	}
-	
+	}	
 }

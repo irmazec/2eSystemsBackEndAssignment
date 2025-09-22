@@ -13,24 +13,26 @@ public class Metar {
 	@JoinColumn(name = "subscription_id", nullable = false)
 	private Subscription subscription;
 	
-	@OneToOne
-	@JoinColumn(name = "metar_data_id", nullable = false)
-    private MetarData metarData;
+	@Column(name = "data", nullable = true)
+    private String data;
 
 	public Subscription getSubscription() {
 		return subscription;
+	}
+	
+	public Long getId() {
+		return id;
 	}
 
 	public void setSubscription(Subscription subscription) {
 		this.subscription = subscription;
 	}
 
-	public MetarData getMetarData() {
-		return metarData;
+	public String getData() {
+		return data;
 	}
 
-	public void setMetarData(MetarData metarData) {
-		this.metarData = metarData;
+	public void setData(String data) {
+		this.data = data;
 	}
-	
 }
