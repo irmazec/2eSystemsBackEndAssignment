@@ -35,8 +35,7 @@ public class AirportSubscriptionService implements SubscriptionServiceInterface 
 						s.setIcaoCode(subscriptionDTO.icaoCode());
 						return s;
 					}
-					
-					));
+			));
 		}
 	}
 

@@ -37,8 +37,7 @@ public class MetarDataStorageService implements DataStorageInterface <MetarDTO> 
 				.orElseGet(() -> {
 				Subscription s = new Subscription();
 				s.setIcaoCode(codeName);
-				airportRepository.save(s);
-				return s;
+				return airportRepository.saveAndFlush(s);
 				});
 		
 		
@@ -48,7 +47,6 @@ public class MetarDataStorageService implements DataStorageInterface <MetarDTO> 
 			metar.setSubscription(subscription);
 		}
 		metar.setData(data.data());
-		airportRepository.save(subscription);
 		metarRepository.save(metar);
 	}
 
