@@ -23,8 +23,23 @@ public class SubscriptionController {
 		return service.listAllSubscriptions();
 	}
 	
+	@GetMapping("/subscriptions/active")
+	public List<SubscriptionDTO> getActiveAirportSubscriptions(){
+		return service.findActiveAirportSubscriptions();
+	}
+	
+	@GetMapping("/subscriptions/inactive")
+	public List<SubscriptionDTO> getInctiveAirportSubscriptions(){
+		return service.findInactiveAirportSubscriptions();
+	}
+	
+	@GetMapping("/subscriptions/{airportName}")
+	public List<SubscriptionDTO> getMatchingAirportNames(@PathVariable String airportName){
+		return service.searchAirportSubscriptionsStartingWith(airportName);
+	}
+	
 	@PostMapping("/subscriptions")
-	public void postAirportSubscription(SubscriptionDTO subscriptionDTO) {
+	public void postAirportSubscription(@RequestBody SubscriptionDTO subscriptionDTO) {
 		service.subscribeNewSubscriber(subscriptionDTO);
 	}
 	
