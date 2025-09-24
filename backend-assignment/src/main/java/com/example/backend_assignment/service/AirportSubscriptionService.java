@@ -6,7 +6,9 @@ import java.util.stream.Collectors;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.example.backend_assignment.dto.StatusDTO;
 import com.example.backend_assignment.dto.SubscriptionDTO;
+import com.example.backend_assignment.model.Status;
 import com.example.backend_assignment.model.Subscription;
 import com.example.backend_assignment.repository.AirportSubscriptionsRepository;
 import com.example.backend_assignment.utils.ValidIcaoCodeCheck;
@@ -21,8 +23,9 @@ public class AirportSubscriptionService implements SubscriptionServiceInterface 
 	public List<SubscriptionDTO> listAllSubscriptions() {
 		return repository.findAll()
 				.stream()
-				.map(subscription -> new SubscriptionDTO(
-						subscription.getIcaoCode()
+				.map(subscription -> new SubscriptionDTO(				
+						subscription.getIcaoCode(),
+						subscription.getStatus()
 						)).collect(Collectors.toList());
 	}
 
@@ -33,6 +36,7 @@ public class AirportSubscriptionService implements SubscriptionServiceInterface 
 					.orElseGet(() -> {
 						Subscription s = new Subscription();
 						s.setIcaoCode(subscriptionDTO.icaoCode());
+						s.setStatus(null);
 						return s;
 					}
 			));
@@ -45,6 +49,17 @@ public class AirportSubscriptionService implements SubscriptionServiceInterface 
 		if (subscription != null) {
 			repository.delete(subscription);
 		}
+	}
+	
+	public void setSubscriptionStatus(String icaoCode, StatusDTO statusDTO) {
+		Subscription subscription = repository.findByIcaoCode(icaoCode)
+				.orElseGet(() -> {
+					Subscription s = new Subscription();
+					s.setIcaoCode(icaoCode);
+					return s;
+				});
+		subscription.setStatus(Status.getStatusFromValue(statusDTO.active()));
+		repository.save(subscription);
 	}
 
 }

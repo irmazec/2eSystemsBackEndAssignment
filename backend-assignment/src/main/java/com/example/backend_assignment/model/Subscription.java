@@ -11,7 +11,11 @@ public class Subscription {
 	
 	@Column(name="icao_code", length=4, nullable=false, unique=true)
     private String icaoCode;
-
+	
+	@Enumerated(EnumType.STRING)
+	@Column(name="status", nullable = true)
+	private Status status;
+	
 	public Long getId() {
 		return id;
 	}
@@ -22,5 +26,14 @@ public class Subscription {
 
 	public void setIcaoCode(String icaoCode) {
 		this.icaoCode = icaoCode;
-	}	
+	}
+
+	public Status getStatus() {
+		return status;
+	}
+
+	public void setStatus(Status status) {
+		this.status = status;
+	}
+	
 }

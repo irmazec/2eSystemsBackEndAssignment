@@ -5,7 +5,10 @@ import java.util.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import com.example.backend_assignment.dto.MetarDTO;
+import com.example.backend_assignment.dto.StatusDTO;
 import com.example.backend_assignment.dto.SubscriptionDTO;
+import com.example.backend_assignment.model.Status;
 import com.example.backend_assignment.model.Subscription;
 import com.example.backend_assignment.service.AirportSubscriptionService;
 
@@ -23,6 +26,11 @@ public class SubscriptionController {
 	@PostMapping("/subscriptions")
 	public void postAirportSubscription(SubscriptionDTO subscriptionDTO) {
 		service.subscribeNewSubscriber(subscriptionDTO);
+	}
+	
+	@PostMapping("/subscriptions/{icaoCode}")
+	public void postAirportSubscriptionStatus(@PathVariable String icaoCode, @RequestBody StatusDTO statusDTO) {
+		service.setSubscriptionStatus(icaoCode, statusDTO);
 	}
 	
 	@DeleteMapping("/subscriptions/{codeName}")
