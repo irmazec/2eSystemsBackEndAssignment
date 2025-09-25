@@ -73,6 +73,14 @@ public class MetarData {
 		return wind;
 	}
 
+	public Long getId() {
+		return id;
+	}
+
+	public void setId(Long id) {
+		this.id = id;
+	}
+
 	public void setWind(String wind) {
 		this.wind = wind;
 	}

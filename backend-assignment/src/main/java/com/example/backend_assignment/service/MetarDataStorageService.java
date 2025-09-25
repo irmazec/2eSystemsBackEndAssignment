@@ -1,6 +1,6 @@
 package com.example.backend_assignment.service;
 
-import java.util.Optional;
+import java.util.*;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,9 +12,6 @@ import com.example.backend_assignment.model.MetarData;
 import com.example.backend_assignment.model.Subscription;
 import com.example.backend_assignment.repository.*;
 import com.example.backend_assignment.utils.MetarDataParser;
-
-import io.github.mivek.exception.ParseException;
-import io.github.mivek.service.MetarService;
 
 @Service
 public class MetarDataStorageService implements DataStorageInterface <MetarDTO> {
@@ -37,6 +34,44 @@ public class MetarDataStorageService implements DataStorageInterface <MetarDTO> 
 							)).collect(Collectors.toList()).getFirst();
 		}
 		return Optional.of(metarDTO);
+	}
+	
+	public Map<String, String> getMetarData(String icaoCode, List<String> fields){
+		HashMap<String, String> response = new HashMap<String, String>();
+		Subscription subscription = airportRepository.findByIcaoCode(icaoCode).orElse(null);
+		if (subscription == null) {
+			return response;
+		}
+		Metar metar = metarRepository.findBySubscriptionId(subscription.getId()).orElse(null);
+		if (metar == null) {
+			return response;
+		}
+		MetarData metarData = metar.getMetarData();
+		
+		if (fields == null) {
+			response.put("timestamp", metarData.getTimestamp().toString());
+			response.put("windStrength", metarData.getWind());
+			response.put("temperature", metarData.getTemperature());
+			response.put("visibility", metarData.getHorizontalVisibility());
+		}else {
+			for(String field : fields) {
+				if ("timestamp".equals(field)) {
+					response.put("timestamp", metarData.getTimestamp().toString());
+				}
+				if ("windStrength".equals(field)) {
+					response.put("windStrength", metarData.getWind());
+				}
+				if ("temperature".equals(field)) {
+					response.put("temperature", metarData.getTemperature());
+				}
+				if ("visibility".equals(field)) {
+					response.put("visibility", metarData.getHorizontalVisibility());
+				}
+				
+			}
+		}
+		
+		return response;
 	}
 
 	@Override
