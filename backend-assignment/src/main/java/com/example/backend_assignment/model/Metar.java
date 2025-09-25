@@ -13,8 +13,20 @@ public class Metar {
 	@JoinColumn(name = "subscription_id", nullable = false)
 	private Subscription subscription;
 	
-	@Column(name = "data", nullable = true)
+	@Column(name = "data", nullable = true, columnDefinition = "TEXT")
     private String data;
+	
+	@OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
+	@JoinColumn (name="metar_data_id", nullable=true)
+	private MetarData metarData;
+
+	public MetarData getMetarData() {
+		return metarData;
+	}
+
+	public void setMetarData(MetarData metarData) {
+		this.metarData = metarData;
+	}
 
 	public Subscription getSubscription() {
 		return subscription;

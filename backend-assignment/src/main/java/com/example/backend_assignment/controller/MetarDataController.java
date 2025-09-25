@@ -1,5 +1,7 @@
 package com.example.backend_assignment.controller;
 
+import java.util.*;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -16,8 +18,12 @@ public class MetarDataController {
 	MetarDataStorageService service;
 	
 	@GetMapping("/airport/{icaoCode}/METAR")
-	public MetarDTO getLastMetarDataForAirport(@PathVariable String icaoCode) {
-		return service.retrieveStorageData(icaoCode);
+	public MetarDTO getLastMetarDataForAirport(@PathVariable String icaoCode,  @RequestParam (required = false) List<String> fields) {
+		Optional<MetarDTO> resultMetarDTO = service.retrieveStorageData(icaoCode);
+		if (resultMetarDTO.isEmpty()) {
+			System.out.println("There's no data for this ICAO code.");
+		}
+		return resultMetarDTO.orElse(new MetarDTO("N/A"));
 	}
 	
 	@PostMapping("/airport/{icaoCode}/METAR")
