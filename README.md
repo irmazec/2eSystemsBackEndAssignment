@@ -5,15 +5,15 @@ The following application contains both the basic task implementation and the im
 
 ## Documentation Links
 ### Core application
-[Controllers](src/main/resources/docs/Controllers.md)
-[Models](src/main/resources/docs/Models.md)
-[DTOs](src/main/resources/docs/DTO.md)
-[Services](src/main/resources/docs/Services.md)
+[Controllers](/backend-assignment/src/main/resources/docs/Controllers.md)<br>
+[Models](backend-assignment/src/main/resources/docs/Models.md)<br>
+[DTOs](/backend-assignment/src/main/resources/docs/DTO.md)<br>
+[Services](/backend-assignment/src/main/resources/docs/Services.md)<br>
 
 ### Helper classes
-[METAR data natural language decoder](src/main/resources/docs/utils/METAR%20data%20natural%20language%20decoder.md)
-[METAR data parser](src/main/resources/docs/utils/METAR%20data%20parsing.md)
-[ICAO code validation](src/main/resources/docs/utils/Validation%20of%20ICAO%20codes.md)
+[METAR data natural language decoder](/backend-assignment/src/main/resources/docs/utils/METAR%20data%20natural%20language%20decoder.md)<br>
+[METAR data parser](/backend-assignment/src/main/resources/docs/utils/METAR%20data%20parsing.md)<br>
+[ICAO code validation](/backend-assignment/src/main/resources/docs/utils/Validation%20of%20ICAO%20codes.md)<br>
 
 ### Script
-[Data fetching](src/main/resources/docs/scripts/Fetching%20Data%20Automation.md)
+[Data fetching](/backend-assignment/src/main/resources/docs/scripts/Fetching%20Data%20Automation.md)<br>
