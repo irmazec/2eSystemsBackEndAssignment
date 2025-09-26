@@ -20,7 +20,6 @@ public class MetarDataParser {
 	
 	public static MetarData parseMetarData(MetarData parsedData, String data){
 		io.github.mivek.model.Metar decodedMetar;
-		
 		try {
 			decodedMetar = metarService.decode(data);
 		} catch (io.github.mivek.exception.ParseException e) {
@@ -29,6 +28,7 @@ public class MetarDataParser {
 
 		parsedData.setMessageType("METAR");
 		parsedData.setIcaoCode(decodedMetar.getAirport().getIcao());
+		parsedData.setAirport(decodedMetar.getAirport().getName());
 		parsedData.setTimestamp(decodedMetar.getTime());
 		parsedData.setDay(decodedMetar.getDay());
 		parsedData.setWind(decodedMetar.getWind().getSpeed()+decodedMetar.getWind().getUnit().toString());

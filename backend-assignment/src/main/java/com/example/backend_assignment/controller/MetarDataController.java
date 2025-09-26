@@ -16,12 +16,10 @@ public class MetarDataController {
 	MetarDataStorageService service;
 	
 	@GetMapping("/airport/{icaoCode}/METAR")
-	public ResponseEntity<Map<String, String>> getLastMetarDataForAirport(@PathVariable String icaoCode,  @RequestParam (required = false) List<String> fields) {
-		Map<String, String> response = new HashMap<String, String>();
+	public ResponseEntity<String> getLastMetarDataForAirport(@PathVariable String icaoCode,  @RequestParam (required = false) List<String> fields) {
 		Optional<MetarDTO> resultMetarDTO = service.retrieveStorageData(icaoCode);
 		if (resultMetarDTO.isEmpty()) {
-			System.out.println("There's no data for this ICAO code.");
-			return ResponseEntity.ok(response);
+			return ResponseEntity.ok("There's no data for this ICAO code.");
 		}
 		return ResponseEntity.ok(service.getMetarData(icaoCode, fields));
 	}

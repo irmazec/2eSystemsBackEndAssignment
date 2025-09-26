@@ -11,6 +11,7 @@ import com.example.backend_assignment.model.Metar;
 import com.example.backend_assignment.model.MetarData;
 import com.example.backend_assignment.model.Subscription;
 import com.example.backend_assignment.repository.*;
+import com.example.backend_assignment.utils.MetarDataNaturalLanguageDecoder;
 import com.example.backend_assignment.utils.MetarDataParser;
 
 @Service
@@ -36,42 +37,41 @@ public class MetarDataStorageService implements DataStorageInterface <MetarDTO> 
 		return Optional.of(metarDTO);
 	}
 	
-	public Map<String, String> getMetarData(String icaoCode, List<String> fields){
+	public String getMetarData(String icaoCode, List<String> fields){
 		HashMap<String, String> response = new HashMap<String, String>();
 		Subscription subscription = airportRepository.findByIcaoCode(icaoCode).orElse(null);
 		if (subscription == null) {
-			return response;
+			return "No subscription exists for this airport!";
 		}
 		Metar metar = metarRepository.findBySubscriptionId(subscription.getId()).orElse(null);
 		if (metar == null) {
-			return response;
+			return "No data exists for this airport!";
 		}
 		MetarData metarData = metar.getMetarData();
 		
-		if (fields == null) {
-			response.put("timestamp", metarData.getTimestamp().toString());
-			response.put("windStrength", metarData.getWind());
-			response.put("temperature", metarData.getTemperature());
-			response.put("visibility", metarData.getHorizontalVisibility());
-		}else {
-			for(String field : fields) {
-				if ("timestamp".equals(field)) {
-					response.put("timestamp", metarData.getTimestamp().toString());
-				}
-				if ("windStrength".equals(field)) {
-					response.put("windStrength", metarData.getWind());
-				}
-				if ("temperature".equals(field)) {
-					response.put("temperature", metarData.getTemperature());
-				}
-				if ("visibility".equals(field)) {
-					response.put("visibility", metarData.getHorizontalVisibility());
-				}
-				
+		if (fields == null || fields.isEmpty()) {
+			fields = List.of("time","temperature", "wind", "visibility");
+		}
+		
+		for(String field : fields) {
+			switch(field) {
+			case "time": 
+				response.put("timestamp", metarData.getTimestamp().toString()+" UTC");
+				break;
+			case "wind":
+				response.put("wind", metarData.getWind());
+				break;
+			case "temperature":
+				response.put("temperature", metarData.getTemperature() +" C");
+				break;
+			case "visibility":
+				response.put("visibility", metarData.getHorizontalVisibility());
+				break;
 			}
 		}
 		
-		return response;
+		String decodedText = MetarDataNaturalLanguageDecoder.decode(metarData, response);
+		return decodedText;
 	}
 
 	@Override

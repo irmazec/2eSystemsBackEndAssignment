@@ -1,6 +1,4 @@
 package com.example.backend_assignment.model;
-
-import java.time.LocalDate;
 import java.time.LocalTime;
 
 import jakarta.persistence.*;
@@ -18,7 +16,18 @@ public class MetarData {
     @Column (name="icaoCode", nullable=true)
 	private String icaoCode;
     
-    @Column (name="timestamp", nullable=true)
+    @Column (name="airport", nullable=true)
+    private String airport;
+    
+    public String getAirport() {
+		return airport;
+	}
+
+	public void setAirport(String airport) {
+		this.airport = airport;
+	}
+
+	@Column (name="timestamp", nullable=true)
 	private LocalTime timestamp;
     
     @Column(name="day", nullable=true)
