@@ -24,6 +24,16 @@ POST requests to the endpoint are mapped to the `public void postAirportSubscrip
 
 DELETE requests are mapped to the endpoint _\subscriptions\{icaoCode}_ and the method `public void deleteAirportSubscription(@PathVariable String codeName)`. This method takes the ICAO code from the request path and delegates the responsibility of safely deleting the airport with the correct ICAO code to the service. The `AirportSubscriptionService` `public void deleteSubscriber(String codeName)` method deletes the airport with the code from the DELETE requests path.
 
+### Extra tasks - status
+To expand the Subscription with a status another POST mapping was made to the method `public void postAirportSubscriptionStatus(@PathVariable String icaoCode, @RequestBody StatusDTO statusDTO)` . This method receives a `StatusDTO` object from the client and calls the `public void setSubscriptionStatus(String icaoCode, StatusDTO statusDTO)` from the `AirportSubscriptionService` repository.
+### Extra tasks - filtering and searching
+In the extended version of this application filtering through active/inactive airports and searching an airport based on their ICAO code is also possible.
+
+These were achieved with three more GET mappings in the controller.
+
+- `@GetMapping("/subscriptions/active")` which is mapped to the `List<SubscriptionDTO> getActiveAirportSubscriptions()` and contains a call to the `AirportSubscriptionService` method `public List<SubscriptionDTO> findActiveAirportSubscriptions()`
+- `@GetMapping("/subscriptions/inactive")` which is mapped to the `List<SubscriptionDTO> getInactiveAirportSubscriptions()` and contains a call to the `AirportSubscriptionService` method `public List<SubscriptionDTO> findInactiveAirportSubscriptions()`
+- `@GetMapping("/subscriptions/{airportName}")` which is mapped to the `List<SubscriptionDTO> getMatchingAirportNames(@PathVariable String airportName)` and contains a call to the `AirportSubscriptionService` method `List<SubscriptionDTO> searchAirportSubscriptionsStartingWith(String airportName)`
 
 ## MetarDataController
 
@@ -32,6 +42,8 @@ The MetarDataController defines an endpoint for METAR data storage and retrieval
 ### GET requests
 
 GET requests to the endpoint _airport/{icaoCode}/METAR_ are mapped to the method `public MetarDTO getLastMetarDataForAirport(@PathVariable String icaoCode)`. This method returns the last METAR data record previously stored as a MetarDTO. This is achieved through a call to the method `public MetarDTO retrieveStorageData(String codeName)` defined in the service `MetarDataStorageService`.
+
+In the updated version of the task this method return a string of METAR data written out in natural language.
 
 ### POST requests
 

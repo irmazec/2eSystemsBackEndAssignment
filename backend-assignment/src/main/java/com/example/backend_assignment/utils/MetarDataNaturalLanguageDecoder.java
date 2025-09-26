@@ -25,7 +25,7 @@ public class MetarDataNaturalLanguageDecoder {
 		return sb.toString();
 	}
 	
-	public static String nullCheck(String data) {
+	private static String nullCheck(String data) {
 		if (data == null) {
 			return "N/A";
 		}else {

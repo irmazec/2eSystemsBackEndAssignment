@@ -16,9 +16,9 @@ for ICAO_CODE in "${ICAO_CODES[@]}"; do
                 trimmed_line=$(echo "$line" | tr -d '\r\n')
                 json_payload=$(jq -n --arg d "$trimmed_line" '{data: $d}')
 
-                curl -s -X POST "http://localhost:8080/airport/${ICAO_CODE}/METAR" \
-                        -H "Content-Type: application/json" \
-                        -d "$json_payload"
+		curl -s -X POST "http://localhost:8080/airport/${ICAO_CODE}/METAR" \
+     			-H "Content-Type: application/json" \
+     			-d "$json_payload"
 
             fi
         done <<< "$METAR_DATA"
